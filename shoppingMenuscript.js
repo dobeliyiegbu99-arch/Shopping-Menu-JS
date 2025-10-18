@@ -20,17 +20,67 @@ function addToCart(){
     displayMenu();
 }
 
+debugger
 function removeFromCart(){
  if (cart.length ===0){
     alert("your cart is empty");
     displayMenu();
 };
-    // debugger
-    let item = prompt('Enter the removed items');
-    let index = cart.indexOf(Number(item))
-    cart.splice(index, 1);
-    alert(`${item}has been removed from the cart`);
-    displayMenu()
+    debugger
+    let emptyList = "";
+    for (let i = 0; i < cart.length; i++){
+        emptyList += (i + 1) + " " + cart[i] + "\n"; 
+    }
+
+    let item = prompt('The items in the cart:\n' + emptyList + "(0) Back" + "\nEnter input");
+    
+    if (item === null || item.trim() === ""){       
+        
+        alert(`Nothing was selected`);
+        removeFromCart();
+        return;
+    }
+    item = item.trim();
+
+    if(item === "0"){
+        return displayMenu()
+    }
+
+    if(!isNaN(item)){
+        let index = parseInt(item) - 1;
+
+        if(index < 0 || index >= cart.length){
+            alert("Invalid Item Number");
+            removeFromCart();
+            return;
+        }
+
+        let removedItem = cart.splice(index, 1)
+        alert(removedItem[0] + " has been removed from the cart");
+        removeFromCart();
+        return;
+    }
+    
+    let indexByName = -1;
+    for (let i = 0; i < cart.length; i++){
+        if(cart[i].toLowerCase() === item.toLowerCase()){
+            indexByName = i;
+            break;
+        }
+    }
+
+    if(indexByName === -1){
+        alert("Item not Found");
+        removeFromCart()
+    } else {
+        let itemToRemove = cart.splice(indexByName, 1)
+        alert(itemToRemove[0] + " has been removed");
+        
+    }
+
+    
+
+    displayMenu();
 }
 
 function viewCart(){
